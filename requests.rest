@@ -1,6 +1,3 @@
-Get http://localhost:3000/articles
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9hdiIsImlhdCI6MTYyOTExMjU3NH0.TvpRgM2PM19s3smJpDfZyVA0Pl7Wjpy489bnUo4jCF0
-###
 POST http://localhost:3000/login
 Content-Type: application/json
 
