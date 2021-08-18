@@ -1,9 +1,14 @@
 require('dotenv').config()
+const arr = [4, 5, 6, 7];
 const express = require('express')
 const app = express();
 const jwt = require('jsonwebtoken')
+const apiErrorHandler = require('./error/api-error-handler');
+const ApiError = require("./error/apiError")
+    // import { ApiError } from "./error/apiError"
 app.use(express.json())
-const arr = [4, 5, 6, 7];
+app.use(authenticateToken) //this line says that every req have middle ware with this function 
+app.use(apiErrorHandler);
 
 app.post('/login', (req, res) => {
     // Authenticate User
@@ -12,15 +17,15 @@ app.post('/login', (req, res) => {
     const user = { name: username }
 
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+    console.log(accessToken);
     res.json({ accessToken: accessToken })
 })
 
-app.use(authenticateToken) //this line says that every req have middle ware with this function 
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']; //= Bearer TOKEN
     const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
-    if (token == null) return res.sendStatus(401)
+    if (token == null) return next(new ApiError(401, 'the user isnt connect'))
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, PAYLOAD) => {
         // console.log(err)
@@ -41,20 +46,20 @@ function authenticateAdmin(req, res, next) {
     const userName = decodedToken.payload.name;
     if (userName === "admin")
         next() //move on from the middleWare 
-    console.log("in admin auth")
 
-    res.sendStatus(401);
+    next(new ApiError(403, 'this user dont have Permissions'))
+        // res.sendStatus(401);
 
 }
 
 
-app.get("/", authenticateToken, (req, res) => {
+app.get("/", (req, res) => {
     const date = new Date().toJSON().slice(0, 10);
     res.json({
         msg: "Hello " + req.user.name + " today is " + date,
     });
 });
-app.get("/echo", authenticateToken, (req, res) => {
+app.get("/echo", (req, res) => {
     const msg = req.query.msg;
     res.json({
         echo: "The message is " + msg
@@ -62,16 +67,16 @@ app.get("/echo", authenticateToken, (req, res) => {
 });
 
 
-app.get("/array", authenticateToken, (req, res) => {
+app.get("/array", (req, res) => {
     res.json(arr)
 });
-app.get("/array/:index", authenticateToken, (req, res) => {
+app.get("/array/:index", (req, res) => {
     const indexInArray = req.params.index;
     const value = arr[indexInArray];
     res.json(value)
 });
 
-app.post("/array", authenticateToken, authenticateAdmin, (req, res) => {
+app.post("/array", authenticateAdmin, (req, res) => {
     const value = req.body.value
     arr.push(value)
 
@@ -79,7 +84,7 @@ app.post("/array", authenticateToken, authenticateAdmin, (req, res) => {
 
 });
 
-app.put("/array/:index", authenticateToken, (req, res) => {
+app.put("/array/:index", authenticateAdmin, (req, res) => {
     const indexInArray = req.params.index;
     const value = req.body.value;
     arr[indexInArray] = value;
@@ -87,12 +92,12 @@ app.put("/array/:index", authenticateToken, (req, res) => {
 
 });
 
-app.delete("/array", authenticateToken, (req, res) => {
+app.delete("/array", authenticateAdmin, (req, res) => {
     arr.pop();
     res.json(arr)
 
 });
-app.delete("/array/:index", authenticateToken, (req, res) => {
+app.delete("/array/:index", authenticateAdmin, (req, res) => {
     const indexInArray = req.params.index;
     const value = 0
     arr[indexInArray] = value;
