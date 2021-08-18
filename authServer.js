@@ -4,7 +4,7 @@ const app = express();
 const jwt = require('jsonwebtoken')
 app.use(express.json())
 
-let refreshTokens = []
+// let refreshTokens = []
 
 app.post('/token', (req, res) => {
     const refreshToken = req.body.token
