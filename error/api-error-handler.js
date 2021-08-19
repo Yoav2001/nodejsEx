@@ -5,7 +5,9 @@ function apiErrorHandler(err, req, res, next) {
     // it is not async
     console.error(err);
 
-    if (err instanceof ApiError) {
+
+    if (err.constructor.name === "ApiError") {
+        console.log("ASdasd")
         res.status(err.code).json(err.message);
         return;
     }

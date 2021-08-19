@@ -7,8 +7,6 @@ const apiErrorHandler = require('./error/api-error-handler');
 const ApiError = require("./error/apiError")
     // import { ApiError } from "./error/apiError"
 app.use(express.json())
-app.use(authenticateToken) //this line says that every req have middle ware with this function 
-app.use(apiErrorHandler);
 
 app.post('/login', (req, res) => {
     // Authenticate User
@@ -17,16 +15,45 @@ app.post('/login', (req, res) => {
     const user = { name: username }
 
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-    console.log(accessToken);
+    if (accessToken === null)
+        apiErrorHandler(new ApiError(401, 'the user isnt connect'), req, res)
+
+
     res.json({ accessToken: accessToken })
+
+    // // apiErrorHandler(new ApiError(200, `the request Succeeded `), req, res)
+
+    // res.status(200).json('the req Succeeded');
+
 })
 
+// the middleWare needs to be after the login POST
+app.use(authenticateToken);
+app.use(apiErrorHandler);
 
+
+
+// function validIndex(index) {
+//     middleWareIndexValid(req, res, next) {
+
+//         if (indexInArray != null && indexInArray > arr.length) {
+//             return next(new ApiError(401, 'error you give in correct index'))
+//         }
+//     }
+// }
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']; //= Bearer TOKEN
     const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
-    if (token == null) return next(new ApiError(401, 'the user isnt connect'))
+    if (token == null) {
+        return next(new ApiError(401, 'the user isnt connect'))
+    }
 
+    const indexInArray = req.params.index;
+    res.json(indexInArray)
+    console.log(indexInArray)
+    if (indexInArray != null && indexInArray > arr.length) {
+        return next(new ApiError(401, 'error you give in correct index'))
+    }
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, PAYLOAD) => {
         // console.log(err)
         if (err) return res.sendStatus(403)
@@ -44,7 +71,7 @@ function authenticateAdmin(req, res, next) {
     });
 
     const userName = decodedToken.payload.name;
-    if (userName === "admin")
+    if (userName.indexOf("admin") !== -1)
         next() //move on from the middleWare 
 
     next(new ApiError(403, 'this user dont have Permissions'))
@@ -55,11 +82,13 @@ function authenticateAdmin(req, res, next) {
 
 app.get("/", (req, res) => {
     const date = new Date().toJSON().slice(0, 10);
+
     res.json({
         msg: "Hello " + req.user.name + " today is " + date,
     });
 });
 app.get("/echo", (req, res) => {
+
     const msg = req.query.msg;
     res.json({
         echo: "The message is " + msg
@@ -73,6 +102,9 @@ app.get("/array", (req, res) => {
 app.get("/array/:index", (req, res) => {
     const indexInArray = req.params.index;
     const value = arr[indexInArray];
+    // if (indexInArray > arr.length)
+    //     return apiErrorHandler(new ApiError(400, 'error you give in correct index'))
+
     res.json(value)
 });
 
@@ -100,7 +132,9 @@ app.delete("/array", authenticateAdmin, (req, res) => {
 app.delete("/array/:index", authenticateAdmin, (req, res) => {
     const indexInArray = req.params.index;
     const value = 0
-    arr[indexInArray] = value;
+    if (indexInArray > arr.length)
+
+        arr[indexInArray] = value;
     res.json(arr)
 });
 
