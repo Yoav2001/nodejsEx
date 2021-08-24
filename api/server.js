@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const apiErrorHandler = require('../error/api-error-handler');
 const ApiError = require("../error/apiError")
     // import userRouter from './userRouting.js';
-const userRouter = require("../api/userApi")
+const userRouter = require("./userRouter")
 
 // import { ApiError } from "./error/apiError"
 app.use(express.json())
@@ -73,20 +73,20 @@ function authenticateAdmin(req, res, next) {
 
 
 
-app.get("/", (req, res) => {
-    const date = new Date().toJSON().slice(0, 10);
+// app.get("/", (req, res) => {
+//     const date = new Date().toJSON().slice(0, 10);
 
-    res.json({
-        msg: "Hello " + req.user.name + " today is " + date,
-    });
-});
-app.get("/echo", (req, res) => {
+//     res.json({
+//         msg: "Hello " + req.user.name + " today is " + date,
+//     });
+// });
+// app.get("/echo", (req, res) => {
 
-    const msg = req.query.msg;
-    res.json({
-        echo: "The message is " + msg
-    })
-});
+//     const msg = req.query.msg;
+//     res.json({
+//         echo: "The message is " + msg
+//     })
+// });
 
 
 app.get("/array", (req, res) => {

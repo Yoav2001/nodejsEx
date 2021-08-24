@@ -4,7 +4,7 @@
     "description": "",
     "main": "./api/server",
     "scripts": {
-        "start": "nodemon ../api/server.js ",
+        "start": "nodemon ../api/mainRouter.js ",
         "startAuth": "nodemon authServer.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
