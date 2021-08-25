@@ -1,12 +1,37 @@
 require('dotenv').config()
 const arr = [4, 5, 6, 7];
+// const { Router } = require('express');
 const express = require('express')
+const router = express.Router();
+
 const app = express();
 const jwt = require('jsonwebtoken')
 const apiErrorHandler = require('../error/api-error-handler');
 const ApiError = require("../error/apiError")
+    // import { authenticateAdmin } from '../mainServer'
+app.use(express.json());
 
-const arr = [4, 5, 6, 7];
+function authenticateAdmin(req, res, next) {
+    const authHeader = req.headers['authorization']; //= Bearer TOKEN
+    const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
+    const decodedToken = jwt.decode(token, {
+        complete: true
+    });
+
+    const userName = decodedToken.payload.name;
+    console.log(userName);
+    if (userName === "admin")
+        next() //move on from the middleWare 
+    else {
+        // next(new ApiError(403, 'this user dont have Permissions'))
+        res.status(500).json('something went wrong');
+
+    }
+    // res.sendStatus(401);
+
+}
+
+
 
 router.route("/")
     .get((req, res) => {
@@ -14,7 +39,7 @@ router.route("/")
 
     })
 
-.post(isAdmin, async(req, res) => {
+.post(authenticateAdmin, (req, res) => {
     const value = req.body.value
 
     arr.push(value)
@@ -23,14 +48,14 @@ router.route("/")
 
 })
 
-.delete(isAdmin, async(req, res) => {
+.delete((req, res) => {
     arr.pop();
     res.json(arr)
 
 });
 
 
-router.route(":index")
+router.route("/:index")
     .get((req, res) => {
         const indexInArray = req.params.index;
         const value = arr[indexInArray];
@@ -41,7 +66,7 @@ router.route(":index")
             res.json(value)
     })
 
-.put(isAdmin, async(req, res) => {
+.put((req, res) => {
     const indexInArray = req.params.index;
     const value = req.body.value;
     if (indexInArray > arr.length)
@@ -54,7 +79,7 @@ router.route(":index")
 
 })
 
-.delete(isAdmin, async(req, res) => {
+.delete((req, res) => {
     const indexInArray = req.params.index;
     const value = 0
     if (indexInArray > arr.length)
@@ -66,3 +91,6 @@ router.route(":index")
     }
 
 });
+
+// export default router;
+module.exports = router
