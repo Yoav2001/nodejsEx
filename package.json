@@ -2,9 +2,9 @@
     "name": "jwt",
     "version": "1.0.0",
     "description": "",
-    "main": "./api/server",
+    "main": "mainServer.js",
     "scripts": {
-        "start": "nodemon ../api/mainRouter.js ",
+        "start": "nodemon mainServer.js ",
         "startAuth": "nodemon authServer.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
