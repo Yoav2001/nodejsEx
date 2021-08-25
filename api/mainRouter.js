@@ -7,9 +7,16 @@ const apiErrorHandler = require('../error/api-error-handler');
 const ApiError = require("../error/apiError")
 
 const arrayRouter = require("../api/arrayRouter")
-const userRouter = require("../api/userRouter   ")
+const userRouter = require("../api/userRouter")
+
+// app.use(bodyparser.json());
+
+app.use(express.json());
 
 
+// app.get('/', (req, res) => {
+//     res.send('Hello World!')
+// })
 
 app.get("/", (req, res) => {
     const date = new Date().toJSON().slice(0, 10);
@@ -26,8 +33,9 @@ app.get("/echo", (req, res) => {
     })
 });
 
-app.use("/users/", userRouter);
+// app.use("/users/", userRouter);
 
 app.use("/array/", arrayRouter);
 
-app.listen(3000)
+// export default app;
+module.exports = app;
