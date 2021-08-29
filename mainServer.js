@@ -67,23 +67,11 @@ function authenticateAdmin(req, res, next) {
 
 
 
-// app.use(bodyparser.json());
-
-//jwt middleware
-// app.use("/", authed);s
-
-//controller layer
 app.use(authenticateToken);
 // app.use(authenticateAdmin)
 app.use("/api", mainRouter);
 app.use(apiErrorHandler);
 
-// app.use(errorHandler);
-
-// process.on('unhandledRejection', error => {
-//     //rarely happens!
-//     console.log('ah shit I missed an error: ' + error);
-// });
 
 //listen event
 // module.exports = authenticateAdmin;
