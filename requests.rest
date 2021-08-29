@@ -37,7 +37,7 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4y
 Content-Type: application/json
 
 {
-"value": 21
+"value": 43
 }
 
 ###
@@ -45,6 +45,6 @@ DELETE  http://localhost:3000/api/array
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4xIiwiaWF0IjoxNjI5NzkyNzUzfQ.PowpGUailHGAgS1H6LThKPo49eZics0xpU_jHwK250k
 
 ###
-DELETE  http://localhost:3000/api/array/1
+DELETE  http://localhost:3000/api/array/3
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4xIiwiaWF0IjoxNjI5NzkyNzUzfQ.PowpGUailHGAgS1H6LThKPo49eZics0xpU_jHwK250k
 
