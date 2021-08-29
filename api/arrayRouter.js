@@ -32,7 +32,6 @@ function authenticateAdmin(req, res, next) {
 }
 
 
-
 router.route("/")
     .get((req, res) => {
         res.json(arr)
@@ -56,21 +55,22 @@ router.route("/")
 
 
 router.route("/:index")
-    .get((req, res) => {
+    .get((req, res, next) => {
         const indexInArray = req.params.index;
-        const value = arr[indexInArray];
-        //||if typeof indexInArray !== 'number'
-        if (indexInArray > arr.length)
-            next(new ApiError(400, 'error you give in valid correct index'))
-        else
-            res.json(value)
+
+        console.log(isNaN(indexInArray));
+
+        if (isNaN(indexInArray) || indexInArray >= arr.length) {
+            next(new ApiError(400, 'error you give inValid index'))
+        } else
+            res.json(arr[indexInArray])
     })
 
-.put((req, res) => {
+.put((req, res, next) => {
     const indexInArray = req.params.index;
     const value = req.body.value;
-    if (indexInArray > arr.length)
-        next(new ApiError(400, 'error you give in valid correct index'))
+    if (isNaN(indexInArray) || indexInArray >= arr.length)
+        next(new ApiError(400, 'error you give in inValid index'))
     else {
         arr[indexInArray] = value;
 
@@ -79,11 +79,11 @@ router.route("/:index")
 
 })
 
-.delete((req, res) => {
+.delete((req, res, next) => {
     const indexInArray = req.params.index;
     const value = 0
-    if (indexInArray > arr.length)
-        next(new ApiError(400, 'error you give in valid correct index'))
+    if (isNaN(indexInArray) || indexInArray >= arr.length)
+        next(new ApiError(400, 'error you give in inValid index'))
     else {
         arr[indexInArray] = value;
 
