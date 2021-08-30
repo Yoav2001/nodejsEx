@@ -43,25 +43,22 @@ function authenticateToken(req, res, next) {
     })
 }
 
-function authenticateAdmin(req, res, next) {
-    const authHeader = req.headers['authorization']; //= Bearer TOKEN
-    const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
-    const decodedToken = jwt.decode(token, {
-        complete: true
-    });
 
-    const userName = decodedToken.payload.name;
-    console.log(userName);
-    if (userName === "admin")
-        next() //move on from the middleWare 
-    else {
-        // next(new ApiError(403, 'this user dont have Permissions'))
-        res.status(500).json('something went wrong');
-
-    }
-    // res.sendStatus(401);
-
-}
+// function authenticateAdmin(req, res, next) {
+//     const authHeader = req.headers['authorization']; //= Bearer TOKEN
+//     const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
+//     const decodedToken = jwt.decode(token, {
+//         complete: true
+//     });
+//     // console.log(userName === "admin");
+//     const userName = decodedToken.payload.name;
+//     if (userName === "admin")
+//         next() //move on from the middleWare 
+//     else {
+//         // next(new ApiError(403, 'this user dont have Permissions'))
+//         res.status(403).json('this user dont have Permissions');
+//     }
+// }
 
 
 
@@ -76,3 +73,5 @@ app.use(apiErrorHandler);
 app.listen(3000, function() {
     console.log("listening on port 3000");
 });
+
+// module.exports = authenticateAdmin

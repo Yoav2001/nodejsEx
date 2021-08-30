@@ -14,9 +14,6 @@ const userRouter = require("../api/userRouter")
 app.use(express.json());
 
 
-// app.get('/', (req, res) => {
-//     res.send('Hello World!')
-// })
 
 app.get("/", (req, res) => {
     const date = new Date().toJSON().slice(0, 10);
@@ -33,7 +30,6 @@ app.get("/echo", (req, res) => {
     })
 });
 
-// app.use("/users/", userRouter);
 
 app.use("/array/", arrayRouter);
 

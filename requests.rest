@@ -4,7 +4,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-"username": "admin2"
+"username": "admin"
 }
 
 ###
@@ -20,15 +20,15 @@ Get http://localhost:3000/api/array
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjkyNzUyNTh9.HbMh2oiN-p70Q9V-A5yBZHy8CJ59zL-iaOaLcxj4tIg
 
 ###
-Get http://localhost:3000/api/array/2
+Get http://localhost:3000/api/array/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2Mjk3ODQ1OTZ9.GaweV2l_rJ5W0Qd8P3-dRbgR1oQF29shUmH_JeHUkJU
 ###
 POST http://localhost:3000/api/array
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjkyODY3NTN9.hpOQR16yZijBDlgu3vToiplu7B60rNTLIADrX-mVQ-s 
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MzAzMzQ4ODN9.zERHZuwaCGPEo0k_FgwlHraLZ0b8F_6yaY9FzskH_v8
 Content-Type: application/json
 
 {
-"value": 314
+"value": 1
 }
 
 ###
@@ -46,5 +46,5 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4x
 
 ###
 DELETE  http://localhost:3000/api/array/3
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4xIiwiaWF0IjoxNjI5NzkyNzUzfQ.PowpGUailHGAgS1H6LThKPo49eZics0xpU_jHwK250k
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MzAzMzQ4ODN9.zERHZuwaCGPEo0k_FgwlHraLZ0b8F_6yaY9FzskH_v8
 
