@@ -26,14 +26,12 @@ app.post('/login', (req, res, next) => {
 
 
 function authenticateToken(req, res, next) {
-    // const path = url.parse(req.url).path;
-    // res.json(path)
+
 
     const authHeader = req.headers['authorization']; //= Bearer TOKEN
     const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
     if (token === null) {
         return next(new ApiError(401, 'the user isnt connect'))
-            // res.status(500).json('something went wrong');
 
     }
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, PAYLOAD) => {
