@@ -1,4 +1,4 @@
- const ApiError = require('./apiError.mjs');
+ const ApiError = require('./apiError');
  // import ApiError from './apiError';
 
  function apiErrorHandler(err, req, res, next) {

@@ -4,8 +4,7 @@
 // import ApiError from './error/apiError';
 // import mainRouter from './api/mainRouter.js';
 
-
-// require('dotenv').config()
+require('dotenv').config()
 const arr = [4, 5, 6, 7];
 const express = require('express')
 const app = express();
