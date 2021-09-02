@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken')
 const apiErrorHandler = require('../error/api-error-handler');
 const ApiError = require("../error/apiError")
 
-const arrayRouter = require("../api/arrayRouter")
-const userRouter = require("../api/userRouter")
+const arrayRouter = require("./arrayRouter")
+const userRouter = require("./userRouter")
 
 // app.use(bodyparser.json());
 

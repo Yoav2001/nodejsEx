@@ -1,4 +1,11 @@
-require('dotenv').config()
+// import express from 'express';
+// import jwt from 'jsonwebtoken';
+// import apiErrorHandler from './error/api-error-handler';
+// import ApiError from './error/apiError';
+// import mainRouter from './api/mainRouter.js';
+
+
+// require('dotenv').config()
 const arr = [4, 5, 6, 7];
 const express = require('express')
 const app = express();
@@ -7,6 +14,7 @@ const apiErrorHandler = require('../nodejsEx/error/api-error-handler');
 const ApiError = require("../nodejsEx/error/apiError")
 const mainRouter = require("../nodejsEx/api/mainRouter")
 app.use(express.json());
+
 
 
 
@@ -74,4 +82,6 @@ app.listen(3000, function() {
     console.log("listening on port 3000");
 });
 
+// module.exports = a;
+//  
 // module.exports = authenticateAdmin
