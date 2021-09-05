@@ -1,21 +1,23 @@
-// import express from 'express';
-// import jwt from 'jsonwebtoken';
-// import apiErrorHandler from './error/api-error-handler';
-// import ApiError from './error/apiError';
-// import mainRouter from './api/mainRouter.js';
-
-require('dotenv').config()
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import apiErrorHandler from './error/api-error-handler.js';
+import ApiError from './error/apiError.js';
+import mainRouter from './api/mainRouter.js';
 const arr = [4, 5, 6, 7];
-const express = require('express')
 const app = express();
-const jwt = require('jsonwebtoken')
-const apiErrorHandler = require('../nodejsEx/error/api-error-handler');
-const ApiError = require("../nodejsEx/error/apiError")
-const mainRouter = require("../nodejsEx/api/mainRouter")
+app.set('view engine', 'jade');
+
+import dotenv from 'dotenv';
+const router = express.Router();
+
+dotenv.config()
+    // require('dotenv').config()
+    // const express = require('express')
+    // const jwt = require('jsonwebtoken')
+    // const apiErrorHandler = require('../nodejsEx/error/api-error-handler');
+    // const ApiError = require("../nodejsEx/error/apiError")
+    // const mainRouter = require("../nodejsEx/api/mainRouter")
 app.use(express.json());
-
-
-
 
 
 app.post('/login', (req, res, next) => {
@@ -25,6 +27,7 @@ app.post('/login', (req, res, next) => {
     const user = { name: username }
 
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+    console.log(accessToken);
     if (accessToken === null)
         next(new ApiError(401, 'the user isnt connect'))
 
@@ -42,8 +45,7 @@ function authenticateToken(req, res, next) {
 
     }
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, PAYLOAD) => {
-        // console.log(err)
-        // if (err) return res.sendStatus(403)
+
         req.user = PAYLOAD
         console.log("in authToken")
         next() //move on from the middleWare 
@@ -51,36 +53,32 @@ function authenticateToken(req, res, next) {
 }
 
 
-// function authenticateAdmin(req, res, next) {
-//     const authHeader = req.headers['authorization']; //= Bearer TOKEN
-//     const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
-//     const decodedToken = jwt.decode(token, {
-//         complete: true
-//     });
-//     // console.log(userName === "admin");
-//     const userName = decodedToken.payload.name;
-//     if (userName === "admin")
-//         next() //move on from the middleWare 
-//     else {
-//         // next(new ApiError(403, 'this user dont have Permissions'))
-//         res.status(403).json('this user dont have Permissions');
-//     }
-// }
-
-
-
 app.use(authenticateToken);
-// app.use(authenticateAdmin)
 app.use("/api", mainRouter);
+
 app.use(apiErrorHandler);
 
+// router.all(methodNotAllowed);
+// router
+//     .post(`*`)
+//     .all(methodNotAllowed);
+// app.use((req, res, next) => {
 
-//listen event
-// module.exports = authenticateAdmin;
+//     const methods = router.stack
+//         // Filter for the route that matches the currently matched route
+//         .filter(layer => layer.route.path === req.path)[0]
+//         .route
+//         .methods;
+
+//     console.log(methods);
+
+
+//     if (!methods[req.method]) methodNotAllowed(req, res, next);
+//     else next(new ApiError(404, 'you using in valid req'));
+
+// });
+
+
 app.listen(3000, function() {
     console.log("listening on port 3000");
 });
-
-// module.exports = a;
-//  
-// module.exports = authenticateAdmin

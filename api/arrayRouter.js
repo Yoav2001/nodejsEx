@@ -1,13 +1,25 @@
-require('dotenv').config()
-const arr = [4, 5, 6, 7];
-// const { Router } = require('express');
-const express = require('express')
+// require('dotenv').config()
+// const arr: number[] = [4, 5, 6, 7];
+const arr = [4, 5, 6, 7]
+    // const express = require('express')
+    // const router = express.Router();
+    // const jwt = require('jsonwebtoken')
+    // const ApiError = require("../error/apiError")
+
+import express from 'express';
 const router = express.Router();
+
+import jwt from 'jsonwebtoken';
+import apiErrorHandler from '../error/api-error-handler.js';
+import ApiError from '../error/apiError.js';
+const methodNotAllowed = (req, res, next) => res.status(405).send();
 const app = express();
-const jwt = require('jsonwebtoken')
-const ApiError = require("../error/apiError")
-    // import { authenticateAdmin } from '../mainServer'
+
 app.use(express.json());
+
+
+
+
 
 function authenticateAdmin(req, res, next) {
     const authHeader = req.headers['authorization']; //= Bearer TOKEN
@@ -15,7 +27,6 @@ function authenticateAdmin(req, res, next) {
     const decodedToken = jwt.decode(token, {
         complete: true
     });
-    // console.log(userName === "admin");
     const userName = decodedToken.payload.name;
     if (userName === "admin")
         next() //move on from the middleWare 
@@ -52,10 +63,14 @@ router.route("/")
 
 
 .delete(authenticateAdmin, (req, res) => {
-    arr.pop();
-    res.json(arr)
+        arr.pop();
+        res.json(arr)
 
-});
+    })
+    .all((req, res) => {
+        res.status(405).send();
+    });
+
 
 
 router.route("/:index")
@@ -92,5 +107,9 @@ router.route("/:index")
     }
 });
 
-// export default router;
-module.exports = router
+
+
+
+export default router;
+
+//module.exports = router

@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "main": "mainServer.js",
-
+    "type": "module",
     "scripts": {
         "start": "nodemon mainServer.js ",
         "startAuth": "nodemon authServer.js",
