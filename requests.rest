@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ###
-PUT  http://localhost:3000/api/array/"3"
+PUT  http://localhost:3000/api/array/10
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MzA4MzkwNjN9.MPmiGrvo9iV7PVh2MeY--OIzfqkFDWh6lsKgtO7if38
 Content-Type: application/json
 

@@ -1,40 +1,14 @@
 // require('dotenv').config()
 // const arr: number[] = [4, 5, 6, 7];
 const arr = [4, 5, 6, 7]
-    // const express = require('express')
-    // const router = express.Router();
-    // const jwt = require('jsonwebtoken')
-    // const ApiError = require("../error/apiError")
-
 import express from 'express';
-const router = express.Router();
+import { authenticateAdmin } from '../mainServer.js';
 
-import jwt from 'jsonwebtoken';
-import apiErrorHandler from '../error/api-error-handler.js';
 import ApiError from '../error/apiError.js';
-const methodNotAllowed = (req, res, next) => res.status(405).send();
-const app = express();
+const router = express.Router();
+//const app = express();
 
-app.use(express.json());
-
-
-
-
-
-function authenticateAdmin(req, res, next) {
-    const authHeader = req.headers['authorization']; //= Bearer TOKEN
-    const token = authHeader && authHeader.split(' ')[1] //the token is the second parameter in the arr
-    const decodedToken = jwt.decode(token, {
-        complete: true
-    });
-    const userName = decodedToken.payload.name;
-    if (userName === "admin")
-        next() //move on from the middleWare 
-    else {
-        // next(new ApiError(403, 'this user dont have Permissions'))
-        res.status(403).json('this user dont have Permissions');
-    }
-}
+//app.use(express.json());
 
 
 router.route("/")
@@ -43,9 +17,9 @@ router.route("/")
 
     })
 
+
 .post(authenticateAdmin, (req, res, next) => {
     const value = req.body.value
-    console.log(typeof value);
     if (typeof value !== "number") {
         // res.status(403).json('this user dont have Permissions');
         return next(new ApiError(400, 'error you give inValid value to put in the arr'))
@@ -107,6 +81,16 @@ router.route("/:index")
     }
 });
 
+
+
+
+
+// if (router.stack.filter(layer => {
+//         if (layer.route === undefined) { return false }
+//         return layer.route.path === req.path
+
+
+// )
 
 
 
