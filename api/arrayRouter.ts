@@ -2,14 +2,11 @@
 // const arr: number[] = [4, 5, 6, 7];
 const arr = [4, 5, 6, 7]
 import express from 'express';
-import { authenticateAdmin } from '../mainServer.js';
-
+import { authenticateAdmin } from '../logic/auth';
 import ApiError from '../error/apiError.js';
 const router = express.Router();
 //const app = express();
-
 //app.use(express.json());
-
 
 router.route("/")
     .get((req, res) => {
@@ -49,7 +46,7 @@ router.route("/")
 
 router.route("/:index")
     .get((req, res, next) => {
-        const indexInArray = req.params.index;
+        const indexInArray : number =parseInt(req.params.index);
 
 
         if (isNaN(indexInArray) || indexInArray >= arr.length) {
@@ -59,8 +56,8 @@ router.route("/:index")
     })
 
 .put(authenticateAdmin, (req, res, next) => {
-    const indexInArray = req.params.index;
-    const value = req.body.value;
+    const indexInArray : number =parseInt(req.params.index);
+    const value:number =parseInt(req.body.value) ;
     if (isNaN(indexInArray) || isNaN(value) || indexInArray >= arr.length)
         next(new ApiError(400, 'error you give in inValid index/value '))
     else {
@@ -71,7 +68,7 @@ router.route("/:index")
 })
 
 .delete(authenticateAdmin, (req, res, next) => {
-    const indexInArray = req.params.index;
+    const indexInArray : number =parseInt(req.params.index);
     const value = 0
     if (isNaN(indexInArray) || indexInArray >= arr.length)
         next(new ApiError(400, 'error you give in inValid index'))
@@ -91,7 +88,6 @@ router.route("/:index")
 
 
 // )
-
 
 
 export default router;

@@ -1,20 +1,20 @@
 // require('dotenv').config()
 import express from 'express';
 import arrayRouter from './arrayRouter.js'
+import { User  } from '../logic/userModule.js';
+// import {getSignedTokenDecoded} from '../logic/auth'
 const router = express.Router();
 const arr = [4, 5, 6, 7];
-
-const methodNotAllowed = (req, res, next) => res.status(405).send();
 
 router.route("/")
     .get((req, res) => {
         const date = new Date().toJSON().slice(0, 10);
-
+        // const user: User= getSignedTokenDecoded(req);
+     
         res.json({
-            msg: "Hello " + req.user.name + " today is " + date,
+            msg: "Hello " +req.body.user + " today is " + date,
         });
-    })
-
+    });
 
 
 router.route("/echo")
