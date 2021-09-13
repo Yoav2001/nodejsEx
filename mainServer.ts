@@ -2,11 +2,11 @@ import  express from 'express';
 import jwt from 'jsonwebtoken';
 import apiErrorHandler from './error/api-error-handler.js';
 import ApiError from './error/apiError.js';
-import mainRouter from './api/mainRouter.js';
+import mainRouter from './api/mainRouter';
 import dotenv from 'dotenv';
 import arrayRouter from './api/arrayRouter.js'
 import { User } from './logic/userModule';
-import { authenticateToken } from './logic/auth.js';
+import { authed } from './logic/auth.js';
 
 const arr = [4, 5, 6, 7];
 const jwtSecret: string = "yalh beitar";
@@ -20,16 +20,35 @@ router.route("/login")
     .post((req, res, next) => {
         // Authenticate User
 
-         const user:User={id:req.body.id,userName:req.body.username,password:req.body.password,isAdmin:false};
+         const user:User={id:req.body.id,userName:req.body.userName,password:req.body.password,isAdmin:false};
         // console.log(user.id);
         // const user:User={id:"1",userName:"dasd",password:"sadsa",isAdmin:false}
-        const token = jwt.sign(user, jwtSecret, {algorithm:'ES256'
-        })
-        res.send();
+        const token = jwt.sign(user, jwtSecret)
+        if(token===undefined||token===null)
+           res.status(403).json('this user dont have Permissions');
 
         res.json(JSON.stringify(token))
-        next()
+
+       
     })
+
+
+app.use(router)
+
+app.use("/api", mainRouter);
+app.use(authed);
+
+ //app.use(apiErrorHandler);
+
+
+
+
+
+app.listen(3000, function() {
+    console.log("listening on port 3000");
+});
+
+
 // app.post('/login', (req, res, next) => {
 //     // Authenticate User
 
@@ -43,24 +62,6 @@ router.route("/login")
 //     res.json({ accessToken: accessToken })
 //     next()
 // })
-
-
-app.use(authenticateToken);
-
-app.use("/api", mainRouter);
-
- //app.use(apiErrorHandler);
-
-
-
-
-
-app.listen(3000, function() {
-    console.log("listening on port 3000");
-});
-
-
-
 
 
 

@@ -2,17 +2,19 @@
 import express from 'express';
 import arrayRouter from './arrayRouter.js'
 import { User  } from '../logic/userModule.js';
-import {getSignedTokenDecoded} from '../logic/auth'
+import {getSignedUserType} from '../logic/auth'
 const router = express.Router();
 const arr = [4, 5, 6, 7];
 
 router.route("/")
     .get((req, res) => {
         const date = new Date().toJSON().slice(0, 10);
-        const user: User= getSignedTokenDecoded(req,res);
+        
+         const userType:User=<User>getSignedUserType(req,res);
+        // console.log(usern);
      
         res.json({
-            msg: "Hello " +req.body.user + " today is " + date,
+            msg: "Hello " +userType.userName+ " today is " + date,
         });
     });
 

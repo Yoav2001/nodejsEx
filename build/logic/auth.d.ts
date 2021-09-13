@@ -1,3 +1,5 @@
 import exp from 'express';
-export declare function authenticateToken(req: exp.Request, res: exp.Response, next: exp.NextFunction): void;
+import { User } from './userModule';
+export declare function getSignedUserType(req: exp.Request, res: exp.Response): User;
+export declare function authed(req: exp.Request, res: exp.Response, next: exp.NextFunction): void;
 export declare function authenticateAdmin(req: exp.Request, res: exp.Response, next: exp.NextFunction): void;

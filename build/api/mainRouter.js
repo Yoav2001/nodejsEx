@@ -6,15 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // require('dotenv').config()
 const express_1 = __importDefault(require("express"));
 const arrayRouter_js_1 = __importDefault(require("./arrayRouter.js"));
-// import {getSignedTokenDecoded} from '../logic/auth'
+const auth_1 = require("../logic/auth");
 const router = express_1.default.Router();
 const arr = [4, 5, 6, 7];
 router.route("/")
     .get((req, res) => {
     const date = new Date().toJSON().slice(0, 10);
-    // const user: User= getSignedTokenDecoded(req);
+    const userType = (0, auth_1.getSignedUserType)(req, res);
+    // console.log(usern);
     res.json({
-        msg: "Hello " + req.body.user + " today is " + date,
+        msg: "Hello " + userType.userName + " today is " + date,
     });
 });
 router.route("/echo")

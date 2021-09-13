@@ -11,7 +11,7 @@ Content-Type: application/json
 
 ###
 Get http://localhost:3000/api/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4yIiwiaWF0IjoxNjI5ODg3NzkyfQ.61CJghi7X9duGCcbRCfGdwo2V7XF8uQhHjwuuIrLWvM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMjEyMTIiLCJ1c2VyTmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIyMSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MzE1MzU5NDZ9.f9aISEZU3g2ZCapkg-0KBnVAgYAfesvEHLfak_3vnfk
 
 ###
 Get http://localhost:3000/api/echo?msg=hello
@@ -26,7 +26,7 @@ Get http://localhost:3000/api/array/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2Mjk3ODQ1OTZ9.GaweV2l_rJ5W0Qd8P3-dRbgR1oQF29shUmH_JeHUkJU
 ###
 POST http://localhost:3000/api/array
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MzAzMzQ4ODN9.zERHZuwaCGPEo0k_FgwlHraLZ0b8F_6yaY9FzskH_v8
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMjEyMTIiLCJ1c2VyTmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIyMSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MzE1MzU5NDZ9.f9aISEZU3g2ZCapkg-0KBnVAgYAfesvEHLfak_3vnfk
 Content-Type: application/json
 
 {
