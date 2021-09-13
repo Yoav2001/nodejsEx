@@ -9,7 +9,7 @@ import { User } from './logic/userModule';
 import { authenticateToken } from './logic/auth.js';
 
 const arr = [4, 5, 6, 7];
-const secret : string="default secret"
+const jwtSecret: string = "yalh beitar";
 const app = express();
 const router = express.Router();
 app.set('view engine', 'jade');
@@ -20,34 +20,16 @@ router.route("/login")
     .post((req, res, next) => {
         // Authenticate User
 
-        const username = req.body.username
-        const user:User={id:req.body.id,userName:req.body.username,password:req.body.password,isAdmin:false};
-        
-        const accessToken = jwt.sign(user, secret)
-        if (accessToken === null)
-            next(new ApiError(401, 'the user isnt connect'))
+         const user:User={id:req.body.id,userName:req.body.username,password:req.body.password,isAdmin:false};
+        // console.log(user.id);
+        // const user:User={id:"1",userName:"dasd",password:"sadsa",isAdmin:false}
+        const token = jwt.sign(user, jwtSecret, {algorithm:'ES256'
+        })
+        res.send();
 
-        res.json({ accessToken: accessToken })
+        res.json(JSON.stringify(token))
         next()
     })
-
-
-app.use(authenticateToken);
-
-app.use("/api", mainRouter);
-
-app.use(apiErrorHandler);
-
-
-
-
-
-app.listen(8080, function() {
-    console.log("listening on port 3000");
-});
-
-
-
 // app.post('/login', (req, res, next) => {
 //     // Authenticate User
 
@@ -61,6 +43,24 @@ app.listen(8080, function() {
 //     res.json({ accessToken: accessToken })
 //     next()
 // })
+
+
+app.use(authenticateToken);
+
+app.use("/api", mainRouter);
+
+ //app.use(apiErrorHandler);
+
+
+
+
+
+app.listen(3000, function() {
+    console.log("listening on port 3000");
+});
+
+
+
 
 
 

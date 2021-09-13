@@ -6,12 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const api_error_handler_js_1 = __importDefault(require("./error/api-error-handler.js"));
-const apiError_js_1 = __importDefault(require("./error/apiError.js"));
 const mainRouter_js_1 = __importDefault(require("./api/mainRouter.js"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const auth_js_1 = require("./logic/auth.js");
 const arr = [4, 5, 6, 7];
-const secret = "default secret";
+const jwtSecret = "yalh beitar";
 const app = (0, express_1.default)();
 const router = express_1.default.Router();
 app.set('view engine', 'jade');
@@ -20,19 +19,14 @@ app.use(express_1.default.json());
 router.route("/login")
     .post((req, res, next) => {
     // Authenticate User
-    const username = req.body.username;
     const user = { id: req.body.id, userName: req.body.username, password: req.body.password, isAdmin: false };
-    const accessToken = jsonwebtoken_1.default.sign(user, secret);
-    if (accessToken === null)
-        next(new apiError_js_1.default(401, 'the user isnt connect'));
-    res.json({ accessToken: accessToken });
+    // console.log(user.id);
+    // const user:User={id:"1",userName:"dasd",password:"sadsa",isAdmin:false}
+    const token = jsonwebtoken_1.default.sign(user, jwtSecret, { algorithm: 'ES256'
+    });
+    res.send();
+    res.json(JSON.stringify(token));
     next();
-});
-app.use(auth_js_1.authenticateToken);
-app.use("/api", mainRouter_js_1.default);
-app.use(api_error_handler_js_1.default);
-app.listen(8080, function () {
-    console.log("listening on port 3000");
 });
 // app.post('/login', (req, res, next) => {
 //     // Authenticate User
@@ -44,6 +38,12 @@ app.listen(8080, function () {
 //     res.json({ accessToken: accessToken })
 //     next()
 // })
+app.use(auth_js_1.authenticateToken);
+app.use("/api", mainRouter_js_1.default);
+app.use(api_error_handler_js_1.default);
+app.listen(3000, function () {
+    console.log("listening on port 3000");
+});
 //midlaear 405 error
 // app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {
 //     const allStackRouter = router.stack.concat(mainRouter.stack).concat(arrayRouter.stack)
