@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const api_error_handler_js_1 = __importDefault(require("./error/api-error-handler.js"));
 const mainRouter_1 = __importDefault(require("./api/mainRouter"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const auth_js_1 = require("./logic/auth.js");
@@ -18,7 +19,6 @@ app.use(express_1.default.json());
 router.route("/login")
     .post((req, res, next) => {
     // Authenticate User
-    console.log("tomer gey");
     const user = { id: req.body.id, userName: req.body.userName, password: req.body.password, isAdmin: false };
     // console.log(user.id);
     // const user:User={id:"1",userName:"dasd",password:"sadsa",isAdmin:false}
@@ -28,9 +28,23 @@ router.route("/login")
     res.json(JSON.stringify(token));
 });
 app.use(router);
-app.use("/api", mainRouter_1.default);
 app.use(auth_js_1.authed);
-//app.use(apiErrorHandler);
+app.use("/api", mainRouter_1.default);
+app.use(api_error_handler_js_1.default);
+//  app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {
+//     const allStackRouter =router.stack.concat(mainRouter.stack).concat(arrayRouter.stack)
+//     console.log(req.path);
+//     if (allStackRouter.filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0] !== undefined) {
+//         const methods = allStackRouter
+//             .filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0]
+//             .route
+//             .methods;
+//         if (!methods[req.method.toString().toLowerCase()]) return res.status(405).end('bad method');
+//     } else {
+//         console.log(req.path.split(":")[0]);
+//         return res.status(404).end('bad url');
+//     }
+// });
 app.listen(3000, function () {
     console.log("listening on port 3000");
 });
@@ -45,16 +59,3 @@ app.listen(3000, function () {
 //     next()
 // })
 //midlaear 405 error
-// app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {
-//     const allStackRouter = router.stack.concat(mainRouter.stack).concat(arrayRouter.stack)
-//     if (allStackRouter.filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0] !== undefined) {
-//         const methods = allStackRouter
-//             .filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0]
-//             .route
-//             .methods;
-//         console.log("1");
-//         if (!methods[req.method.toString().toLowerCase()]) return res.status(405).end('bad method');
-//     } else {
-//         return res.status(404).end('bad url');
-//     }
-// });

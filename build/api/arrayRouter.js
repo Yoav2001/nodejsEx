@@ -21,9 +21,6 @@ router.route("/")
     if (typeof value !== "number") {
         // res.status(403).json('this user dont have Permissions');
         return next(new apiError_js_1.default(400, 'error you give inValid value to put in the arr'));
-        //שמתי retrun כי בלי זה קורס
-        // רשמתי בווצאפ למה
-        // .https://www.codementor.io/@oparaprosper79/understanding-node-error-err_http_headers_sent-117mpk82z8
     }
     else {
         arr.push(value);
@@ -67,9 +64,5 @@ router.route("/:index")
         res.json(arr);
     }
 });
-// if (router.stack.filter(layer => {
-//         if (layer.route === undefined) { return false }
-//         return layer.route.path === req.path
-// )
 exports.default = router;
 //module.exports = router

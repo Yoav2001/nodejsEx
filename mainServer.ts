@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import apiErrorHandler from './error/api-error-handler.js';
 import ApiError from './error/apiError.js';
 import mainRouter from './api/mainRouter';
-import dotenv from 'dotenv';
 import arrayRouter from './api/arrayRouter.js'
+import dotenv from 'dotenv';
 import { User } from './logic/userModule';
 import { authed } from './logic/auth.js';
 
@@ -19,10 +19,7 @@ app.use(express.json());
 router.route("/login")
     .post((req, res, next) => {
         // Authenticate User
-
          const user:User={id:req.body.id,userName:req.body.userName,password:req.body.password,isAdmin:false};
-        // console.log(user.id);
-        // const user:User={id:"1",userName:"dasd",password:"sadsa",isAdmin:false}
         const token = jwt.sign(user, jwtSecret)
         if(token===undefined||token===null)
            res.status(403).json('this user dont have Permissions');
@@ -32,14 +29,33 @@ router.route("/login")
        
     })
 
-
 app.use(router)
-
-app.use("/api", mainRouter);
 app.use(authed);
+app.use("/api", mainRouter);
+app.use(apiErrorHandler);
 
- //app.use(apiErrorHandler);
+//405 error 
+//  app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {
+//     const allStackRouter =router.stack.concat(mainRouter.stack).concat(arrayRouter.stack)
+//     console.log(req.path);
+    
+    
+//     if (allStackRouter.filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0] !== undefined) {
+//         const methods = allStackRouter
+        
+//             .filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0]
+//             .route
+//             .methods;
 
+
+//         if (!methods[req.method.toString().toLowerCase()]) return res.status(405).end('bad method');
+//     } else {
+
+//         console.log(req.path.split(":")[0]);
+        
+//         return res.status(404).end('bad url');
+//     }
+// });
 
 
 
@@ -65,21 +81,5 @@ app.listen(3000, function() {
 
 
 
-//midlaear 405 error
 
 
-// app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {
-//     const allStackRouter = router.stack.concat(mainRouter.stack).concat(arrayRouter.stack)
-
-//     if (allStackRouter.filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0] !== undefined) {
-//         const methods = allStackRouter
-//             .filter(layer => { if (layer.route === undefined) { return false } return layer.route.path === req.path })[0]
-//             .route
-//             .methods;
-
-//         console.log("1");
-//         if (!methods[req.method.toString().toLowerCase()]) return res.status(405).end('bad method');
-//     } else {
-//         return res.status(404).end('bad url');
-//     }
-// });

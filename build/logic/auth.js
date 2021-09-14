@@ -42,6 +42,22 @@ function authed(req, res, next) {
     }
 }
 exports.authed = authed;
+function authenticateAdmin(req, res, next) {
+    // const authHeader = req.headers['authorization']; //= Bearer TOKEN
+    // const token =authHeader!.split(' ')[1] //the token is the second parameter in the arr
+    // const jwtVer=jwt.verify(token,jwtSecret,(err,value)=>{
+    //     console.log(value)
+    // })
+    const userObj = getSignedUserType(req, res);
+    // const userName = decodedToken.payload.name;
+    if (userObj.userName === "admin")
+        next(); //move on from the middleWare 
+    else {
+        // next(new ApiError(403, 'this user dont have Permissions'))
+        res.status(403).json('this user dont have Permissions');
+    }
+}
+exports.authenticateAdmin = authenticateAdmin;
 // export function isAdmin(req: exp.Request, res: exp.Response, next: exp.NextFunction): void{
 //     const jwtToken = getTokenHeader(req);
 //     const decodedToken = <TokenStructure>jwt.decode(jwtToken);
@@ -125,22 +141,6 @@ exports.authed = authed;
 //         next()
 //     })
 // }
-function authenticateAdmin(req, res, next) {
-    // const authHeader = req.headers['authorization']; //= Bearer TOKEN
-    // const token =authHeader!.split(' ')[1] //the token is the second parameter in the arr
-    // const jwtVer=jwt.verify(token,jwtSecret,(err,value)=>{
-    //     console.log(value)
-    // })
-    const userObj = getSignedUserType(req, res);
-    // const userName = decodedToken.payload.name;
-    if (userObj.userName === "admin")
-        next(); //move on from the middleWare 
-    else {
-        // next(new ApiError(403, 'this user dont have Permissions'))
-        res.status(403).json('this user dont have Permissions');
-    }
-}
-exports.authenticateAdmin = authenticateAdmin;
 // //gets called only if authed is passed so the header must be checked for undefined already
 // function getTokenHeader(req: exp.Request,res: exp.Response){
 //     const bearerHeader: string = req.headers["authorization"];
